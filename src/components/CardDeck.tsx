@@ -52,8 +52,6 @@ export const CardDeck = () => {
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   //const [gone, setGone] = useState<number[]>([])
   const [props, api] = useSprings(cards.length, (i, v) => {
-    console.log(v)
-
     return {
       ...to(i),
       from: from(i),
@@ -72,7 +70,7 @@ export const CardDeck = () => {
     }) => {
       const index = args[0]
       //console.log((target as HTMLDivElement).id, args, mx, 'gone', gone)
-      const trigger = vx > 0.3 // If you flick hard enough it should trigger the card to fly out
+      const trigger = vx > 0.25 || (vx > 0.1 && Math.abs(mx) > 200) // If you flick hard enough it should trigger the card to fly out
       if (!active && trigger) {
         //setGone(a => [...a.filter(v => v !== index), index])
         gone.add(index)
@@ -116,7 +114,6 @@ export const CardDeck = () => {
   )
 
   useEffect(() => {
-    console.log(cards)
     if (!cards.length) {
       setLoading(true)
       setCards(v => [...createRandomCards(3), ...v])
@@ -132,13 +129,9 @@ export const CardDeck = () => {
     }
   }, [])
 
-  useEffect(() => {
-    console.log('op', opinion)
-  }, [opinion])
-
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className='relative aspect-[6/10] w-4/5'>
+    <div className='relative aspect-[6/10] w-4/5 mt-4'>
       <span className='absolute top-1/2 left-1/2 transform -translate-x-1/2 w-full text-center animate-pulse text-gray-700'>
         {loading ? 'Ищем ещё...' : 'Скоро найдем ещё'}
       </span>
