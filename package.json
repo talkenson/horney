@@ -1,0 +1,37 @@
+{
+  "name": "horney",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@feathersjs/authentication-client": "^4.5.13",
+    "@feathersjs/client": "^4.5.13",
+    "@feathersjs/feathers": "^4.5.12",
+    "@feathersjs/rest-client": "^4.5.12",
+    "@heroicons/react": "^1.0.6",
+    "@react-spring/web": "^9.4.4",
+    "@use-gesture/react": "^10.2.9",
+    "axios": "^0.26.1",
+    "classnames": "^2.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.2",
+    "react-use": "^17.3.2",
+    "recoil": "^0.6.1"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@vitejs/plugin-react": "^1.0.7",
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.8",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0"
+  }
+}
