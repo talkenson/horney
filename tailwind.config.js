@@ -3,7 +3,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Raleway', 'sans-serif'],
+        sans: ['"Open Sans"', '"Helvetica Neue"', 'sans-serif'],
+        fancy: ['Raleway', 'sans-serif'],
         display: ['"Fredoka One"', 'sans-serif'],
       },
       screens: {
@@ -13,8 +14,9 @@ module.exports = {
       },
       boxShadow: {
         up: '0px -4px 16px -2px rgba(31, 41, 55, 0.2)',
+        vignette: 'inset 0px 0px 50px rgba(0, 0, 0, 0.6)',
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-textshadow')],
 }

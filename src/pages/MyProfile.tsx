@@ -1,3 +1,39 @@
+import { ProfileImage } from '@/components/inProfile/ProfileImage'
+import { Button } from '@/ui/Button'
+import { SlideButton } from '@/ui/SlideButton'
+import { LogoutIcon, PencilIcon } from '@heroicons/react/outline'
+import { getRandomAge, getRandomName } from '@/utils/randomData'
+import { useNavigate } from 'react-router-dom'
+import backly from '@/services/backly'
+
 export const MyProfile = () => {
-  return null
+  const navigate = useNavigate()
+
+  return (
+    <div className='h-full flex flex-col space-y-4 p-2 pt-10 justify-between'>
+      <div className='flex flex-col items-center space-y-4 p-2'>
+        <ProfileImage source={''} className='w-1/2' />
+        <h2 className='font-fancy text-3xl'>{`${getRandomName()}, ${getRandomAge()}`}</h2>
+        <SlideButton
+          label={'Редактировать'}
+          subIcon={<PencilIcon className={'w-5 h-5 text-white'} />}
+          variant={'primary'}
+          className={'w-full'}
+          onClick={() => navigate('edit')}
+        />
+      </div>
+      <div className='flex flex-col space-y-2'>
+        <SlideButton
+          label={'Выйти'}
+          subIcon={<LogoutIcon className={'w-5 h-5 text-white'} />}
+          variant={'error'}
+          className={'w-full'}
+          onClick={() => {
+            backly.auth.logout()
+            navigate('/auth')
+          }}
+        />
+      </div>
+    </div>
+  )
 }

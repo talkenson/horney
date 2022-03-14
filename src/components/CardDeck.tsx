@@ -4,7 +4,11 @@ import { useDrag } from '@use-gesture/react'
 import { Card, CardProps } from './Card'
 import { CardContent } from './types/cardContent'
 import { CardContentBuilder } from './CardContentBuilder'
-import { getRandomAge, getRandomName } from '@/utils/randomData'
+import {
+  getRandomAge,
+  getRandomName,
+  getRandomPhotos,
+} from '@/utils/randomData'
 import { cardsStore } from '@/store/cards.store'
 import { useRecoilState } from 'recoil'
 import { Like } from '@/components/opinionBadges/Like'
@@ -14,7 +18,9 @@ const createRandomCards = (count: number): CardContent[] => {
   return Array.from({ length: count }, () => ({
     id: Math.floor(Math.random() * 2000),
     title: getRandomName() + ', ' + getRandomAge(),
-    coverURL: 'https://picsum.photos/200/300',
+    coverURL: getRandomPhotos(1)[0],
+    photos: getRandomPhotos(Math.round(Math.random() * 8)),
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
   }))
 }
 
@@ -70,7 +76,10 @@ export const CardDeck = () => {
     }) => {
       const index = args[0]
       //console.log((target as HTMLDivElement).id, args, mx, 'gone', gone)
-      const trigger = vx > 0.25 || (vx > 0.1 && Math.abs(mx) > 200) // If you flick hard enough it should trigger the card to fly out
+      const trigger =
+        vx > 2 ||
+        (vx > 0.15 && Math.abs(mx) > 100 && xDir === Math.sign(mx)) ||
+        (vx > 0.1 && Math.abs(mx) > 230 && xDir === Math.sign(mx)) // If you flick hard enough it should trigger the card to fly out
       if (!active && trigger) {
         //setGone(a => [...a.filter(v => v !== index), index])
         gone.add(index)
@@ -98,7 +107,7 @@ export const CardDeck = () => {
               : Opinion.Skip
             : Opinion.NA,
         )
-        const rot = mx / 100 + (isGone ? xDir * 5 * vx : 0) // How much the card tilts, flicking it harder makes it rotate faster
+        const rot = mx / 100 + (isGone ? xDir * 5 * Math.max(vx, 0.1) : 0) // How much the card tilts, flicking it harder makes it rotate faster
         const scale = active ? 1.05 : 1 // Active cards lift up a bit
         return {
           x,
@@ -131,8 +140,8 @@ export const CardDeck = () => {
 
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className='relative aspect-[6/10] w-4/5 mt-4'>
-      <span className='absolute top-1/2 left-1/2 transform -translate-x-1/2 w-full text-center animate-pulse text-gray-700'>
+    <div className='relative aspect-[9/16] w-4/5 mt-3'>
+      <span className='absolute top-1/2 left-1/2 transform -translate-x-1/2 w-full text-center animate-pulse text-gray-700 font-fancy'>
         {loading ? 'Ищем ещё...' : 'Скоро найдем ещё'}
       </span>
       <div className='relative w-full h-full'>
@@ -142,7 +151,7 @@ export const CardDeck = () => {
             id={cards[i].id}
             {...spring}
             binded={bind(cards[i].id)}
-            className='shadow-xl rounded-2xl w-full max-w-[400px] aspect-[9/16]'
+            className='shadow-xl rounded-2xl w-full max-w-[380px] aspect-[9/16]'
           >
             <CardContentBuilder {...cards[i]} />
           </Card>

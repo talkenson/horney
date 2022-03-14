@@ -16,19 +16,19 @@ interface NavbarOption {
 const options: NavbarOption[] = [
   {
     icon: CollectionIcon,
-    title: 'Explore',
+    title: 'Искать',
     link: '/',
     badgeKey: 'explore',
   },
   {
     icon: HeartIcon,
-    title: 'Likes',
+    title: 'Лайки',
     link: '/likes',
     badgeKey: 'likes',
   },
   {
     icon: UserCircleIcon,
-    title: 'Me',
+    title: 'Я',
     link: '/me',
     badgeKey: 'me',
   },
@@ -44,7 +44,7 @@ const Option = ({
   const navigate = useNavigate()
   return (
     <div
-      className='h-full aspect-square flex flex-col items-center justify-between space-y-1 px-1 py-1 cursor-pointer'
+      className='h-full w-20 flex flex-col items-center justify-center space-y-0.5 px-1 py-1 cursor-pointer'
       onClick={() => {
         navigate(link)
       }}
@@ -56,11 +56,13 @@ const Option = ({
             : 'stroke-1 text-violet-400'
         }`}
       />
-      <span
-        className={`text-xs text-violet-500 ${active ? 'font-bold' : 'font'}`}
+      {/*<span
+        className={`text-xs  ${
+          active ? 'text-violet-500' : 'text-violet-400'
+        } font-sans`}
       >
         {title}
-      </span>
+      </span>*/}
     </div>
   )
 }
@@ -73,15 +75,19 @@ export const Navbar = () => {
     [location.pathname],
   )
 
+  const isAuth = useMemo(() => section === '/auth', [section])
+
   useEffect(() => {
     console.log(section)
   }, [section])
 
-  return (
-    <div className='fixed bottom-0 left-0 w-full h-[4rem] bg-white shadow-up px-1 py-1 flex justify-around items-center items-center'>
-      {options.map(v => (
-        <Option key={v.badgeKey} {...v} active={section === v.link} />
-      ))}
+  return isAuth ? null : (
+    <div className='fixed bottom-0 left-0 w-full h-[4rem] bg-white shadow-up px-1 py-1'>
+      <div className='mx-auto h-full max-w-[450px] flex justify-around items-center items-center'>
+        {options.map(v => (
+          <Option key={v.badgeKey} {...v} active={section === v.link} />
+        ))}
+      </div>
     </div>
   )
 }

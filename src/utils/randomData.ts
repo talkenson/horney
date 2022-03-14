@@ -82,3 +82,10 @@ export const getRandomName = () =>
   names[Math.round(Math.random() * (names.length - 1))]
 
 export const getRandomAge = () => Math.round(17 + Math.random() * 12)
+
+export const getRandomPhotos = (count: number) =>
+  Array.from(
+    { length: count },
+    (v, i) =>
+      `https://picsum.photos/350/600?id=${Math.round(Math.random() * 20000)}`,
+  )

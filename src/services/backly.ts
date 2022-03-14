@@ -8,7 +8,9 @@ export interface BacklyAuth {
   register: (
     data: Pick<User, 'email' | 'password'>,
   ) => Promise<User | BackError>
-  login: (data: Pick<User, 'email' | 'password'>) => Promise<AuthorizedUser>
+  login: (
+    data: Pick<User, 'email' | 'password'>,
+  ) => Promise<AuthorizedUser | Record<string, any>>
   reAuth: () => Promise<void>
   logout: () => Promise<boolean>
   getUser: () => User | undefined
@@ -49,7 +51,7 @@ class Backly {
           this.auth.state = false
           // Show login page (potentially with `e.message`)
           console.error('Authentication error', e)
-          return e
+          throw e
         }),
     reAuth: () =>
       app

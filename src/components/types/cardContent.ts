@@ -3,5 +3,9 @@ export interface CardContent {
   title: string
   subtitle?: string
   desc?: string
-  coverURL?: string
+  coverURL?: CoverImageHash
+  photos?: ImageUrl[]
 }
+
+export type ImageUrl = string
+export type CoverImageHash = string

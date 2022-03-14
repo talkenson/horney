@@ -5,7 +5,7 @@ import feathersClient from '@feathersjs/client'
 import auth from '@feathersjs/authentication-client'
 
 const app = feathers()
-const restClient = rest('https://heal-server.herokuapp.com')
+const restClient = rest('https://horney.s.talkiiing.ru')
 app.configure(restClient.axios(axios))
 
 app.configure(feathersClient.authentication())

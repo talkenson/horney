@@ -4,7 +4,7 @@ import { to as interpolate } from '@react-spring/web'
 import { ReactDOMAttributes } from '@use-gesture/react'
 
 const trans = (r: number, s: number) =>
-  `perspective(1500px) rotateX(20deg) rotateY(${
+  `perspective(1500px) rotateX(8deg) rotateY(${
     r / 20
   }deg) rotateZ(${r}deg) scale(${s})`
 
