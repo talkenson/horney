@@ -1,11 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Open+Sans:wght@400&family=Raleway:wght@400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind screens;
 
+html {
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+h1,
+h2,
+h4,
+span,
+label,
+textarea {
+  font-weight: 400 !important;
+}
+
 :root {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input {
+  @apply appearance-none;
+}
+
+input:-webkit-autofill + label,
+input:-webkit-autofill:hover + label,
+input:-webkit-autofill:focus + label,
+input:-webkit-autofill:active + label {
+  @apply pointer-events-none absolute top-1.5 left-4 select-none text-xs text-zinc-400 transition-all duration-100 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1.5 peer-focus:text-xs;
 }
 
 .animation-appear {

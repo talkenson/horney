@@ -27,7 +27,7 @@ export const CardContentBuilder = ({
       <div className='w-full h-full rounded-xl overflow-hidden'>
         <ImageGallery images={images} />
       </div>
-      <div className='absolute w-full bottom-0 left-0 py-3 px-3 rounded-b-xl flex flex-col space-y-1'>
+      <div className='absolute w-full bottom-0 left-0 py-3 px-3 rounded-b-xl flex flex-col space-y-1 select-none'>
         <span className='text-2xl text-white text-shadow-lg font-fancy'>
           {title}
         </span>

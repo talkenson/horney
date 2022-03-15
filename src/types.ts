@@ -22,6 +22,13 @@ export type Profile = {
   sociality?: Sociality | null
   height?: number | null
   lookingFor: LookingFor
+  sex: Sex
+}
+
+export enum Sex {
+  Male = 'Male',
+  Female = 'Female',
+  Helicopter = 'Helicopter',
 }
 
 export type User = {

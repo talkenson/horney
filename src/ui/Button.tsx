@@ -48,7 +48,7 @@ export const Button = ({
           shadow && !outline && !semitransparent,
         border: outline,
         'w-12 rounded-full': circle,
-        'rounded-2xl': !circle,
+        'rounded-xl': !circle,
       },
       outline
         ? {

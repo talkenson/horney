@@ -81,8 +81,8 @@ export const Register = () => {
       <SlideButton
         onClick={handleSubmit(onSubmit)}
         label='Присоединиться'
-        icon={<PlusIcon className='w-5 h-5 text-white' />}
-        subIcon={<ArrowRightIcon className='w-5 h-5 text-white' />}
+        icon={<PlusIcon className='w-5 h-5 text-white stroke-1' />}
+        subIcon={<ArrowRightIcon className='w-5 h-5 text-white stroke-1' />}
         className='rounded-xl'
       />
       {errors.email?.message ? (

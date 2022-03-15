@@ -88,7 +88,7 @@ export const CardDeck = () => {
         }, 1000)
         setTimeout(() => {
           setOpinion(Opinion.NA)
-        }, 300)
+        }, 100)
       } // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
       api.start((i, ctrl) => {
         if (index !== cards[i].id) return // We're only interested in changing spring-data for the current spring

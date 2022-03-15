@@ -4,11 +4,11 @@ import { SlideButton } from '@/ui/SlideButton'
 import { ArrowRightIcon, LoginIcon, PencilIcon } from '@heroicons/react/outline'
 import { getRandomAge, getRandomName } from '@/utils/randomData'
 import { useNavigate, Outlet } from 'react-router-dom'
-import { Input } from 'rsuite'
 import { useForm } from 'react-hook-form'
 import { User } from '@/types'
 import { useCallback } from 'react'
 import backlyInstance from '@/services/backly'
+import { Input } from '@/ui/Input'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -37,8 +37,10 @@ export const Login = () => {
   return (
     <>
       <div className='flex flex-col items-center space-y-2 p-2'>
-        <h2 className='font-fancy text-3xl'>Привет!</h2>
-        <h4 className='font-fancy text-xl'>Нужно войти, чтобы продолжить</h4>
+        <h2 className='font-fancy text-3xl text-center'>Привет!</h2>
+        <h4 className='font-fancy text-xl text-center'>
+          Нужно войти, чтобы продолжить
+        </h4>
         <span
           className='font-sans text-blue-500 media-hover:hover:text-blue-600 cursor-pointer select-none'
           onClick={() => navigate('register')}
@@ -51,26 +53,24 @@ export const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input
-          value={getValues('email')}
-          onChange={s => setValue('email', s)}
-          placeholder='E-mail'
+          value={getValues().email}
+          onChange={e => setValue('email', e.currentTarget.value)}
+          label='E-mail'
           className='!rounded-xl'
-          size='lg'
         />
         <Input
-          value={getValues('password')}
-          onChange={s => setValue('password', s)}
+          value={getValues().password}
+          onChange={e => setValue('password', e.currentTarget.value)}
           type={'password'}
-          placeholder='Пароль'
+          label='Пароль'
           className='!rounded-xl'
-          size='lg'
         />
       </form>
       <SlideButton
         onClick={handleSubmit(onSubmit)}
         label='Войти'
-        icon={<LoginIcon className='w-5 h-5 text-white' />}
-        subIcon={<ArrowRightIcon className='w-5 h-5 text-white' />}
+        icon={<LoginIcon className='w-5 h-5 text-white stroke-1' />}
+        subIcon={<ArrowRightIcon className='w-5 h-5 text-white stroke-1' />}
         className='rounded-xl'
       />
       {errors.email?.message ? (

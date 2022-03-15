@@ -32,12 +32,12 @@ export const ProfileImage = ({
       src={source}
       className={`${
         className || ''
-      } rounded-full aspect-square absolute select-none relative text-violet-300 fill-amber-400`}
+      } rounded-full w-40 h-40 absolute select-none relative text-violet-300 fill-amber-400`}
       draggable={false}
     />
   ) : (
     <div
-      className={`${className} rounded-full aspect-square absolute select-none relative outline outline-dashed outline-black bg-white flex flex-col items-center justify-center`}
+      className={`${className} rounded-full w-40 h-40 absolute select-none relative border-2 border-dashed border-gray-700 bg-white flex flex-col items-center justify-center`}
     >
       <Loader />
     </div>

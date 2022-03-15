@@ -21,8 +21,8 @@ const App = () => {
   }, [location.pathname])
 
   return (
-    <div className='w-full h-full flex flex-col items-center overflow-x-hidden'>
-      <div className='h-[calc(100vh-4rem)] w-full mx-auto flex flex-col space-y-2 p-4 max-w-[56.25vh]'>
+    <div className='w-full h-[calc(100vh-env(safe-area-inset-bottom))] flex flex-col items-center overflow-x-hidden'>
+      <div className='h-[calc(100%-4rem)] w-full mx-auto flex flex-col space-y-2 p-4 max-w-[56.25vh]'>
         <div className='w-full flex flex-col items-center'>
           <h1 className='font-display text-4xl text-violet-500'>Horney</h1>
         </div>

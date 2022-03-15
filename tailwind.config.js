@@ -3,8 +3,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Open Sans"', '"Helvetica Neue"', 'sans-serif'],
-        fancy: ['Raleway', 'sans-serif'],
+        sans: ['"Open Sans"', '"Helvetica"', 'sans-serif'],
+        fancy: ['Raleway', '"Helvetica"', 'sans-serif'],
         display: ['"Fredoka One"', 'sans-serif'],
       },
       screens: {

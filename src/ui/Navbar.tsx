@@ -82,7 +82,7 @@ export const Navbar = () => {
   }, [section])
 
   return isAuth ? null : (
-    <div className='fixed bottom-0 left-0 w-full h-[4rem] bg-white shadow-up px-1 py-1'>
+    <div className='fixed  bottom-[env(safe-area-inset-bottom)] left-0 w-full h-[4rem] bg-white shadow-up px-1 py-1'>
       <div className='mx-auto h-full max-w-[450px] flex justify-around items-center items-center'>
         {options.map(v => (
           <Option key={v.badgeKey} {...v} active={section === v.link} />
