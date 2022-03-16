@@ -1,4 +1,5 @@
 import { SelectOption } from '@/ui/Select'
+import { Zodiac } from '@/types'
 
 export const zodiacSigns: SelectOption[] = [
   {
@@ -54,3 +55,7 @@ export const zodiacSigns: SelectOption[] = [
     value: 'Рыбы',
   },
 ]
+
+export const zodiacValues = Object.fromEntries(
+  zodiacSigns.map(v => [v.id, v.value]),
+) as Record<Zodiac, string>

@@ -1,9 +1,11 @@
 import { SelectOption } from '@/ui/Select'
+import { RelationStatus, Zodiac } from '@/types'
+import { zodiacSigns } from '@/domain/zodiacSigns'
 
 export const relationStatus = (isMale?: boolean): SelectOption[] => [
   {
     id: 'NotStated',
-    value: 'Не указан',
+    value: 'Не указано',
   },
   {
     id: 'Free',
@@ -22,3 +24,8 @@ export const relationStatus = (isMale?: boolean): SelectOption[] => [
     value: 'В отношениях',
   },
 ]
+
+export const relationValues = (isMale?: boolean) =>
+  Object.fromEntries(
+    relationStatus(isMale).map(v => [v.id, v.value]),
+  ) as Record<RelationStatus, string>

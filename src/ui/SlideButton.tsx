@@ -18,7 +18,7 @@ export const SlideButton = ({
 }: SlideButtonProps) => {
   const computedContent = useMemo(
     () => (
-      <div
+      <button
         className={`${cn({
           'h-[200%] w-full flex-col group-hover:-top-full': scroll === 'bottom',
           'h-full w-[200%] flex-row group-hover:-left-full': scroll === 'right',
@@ -40,7 +40,7 @@ export const SlideButton = ({
         >
           <ButtonLabelBuilder label={subLabel} icon={subIcon} />
         </div>
-      </div>
+      </button>
     ),
     [label, icon, subIcon, subLabel, scroll],
   )

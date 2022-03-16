@@ -68,7 +68,7 @@ export const Button = ({
               variant === 'primary',
             'bg-zinc-200 text-zinc-700 media-hover:hover:bg-zinc-200':
               variant === 'secondary',
-            'bg-red-500 text-white media-hover:hover:bg-red-600':
+            'bg-rose-400 text-white media-hover:hover:bg-rose-500':
               variant === 'error',
             'bg-amber-500 text-white media-hover:hover:bg-amber-600':
               variant === 'warning',

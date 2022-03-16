@@ -3,22 +3,35 @@ import { Navbar } from '@/ui/Navbar'
 import { useRecoilValue } from 'recoil'
 import { cardsStore } from '@/store/cards.store'
 import { useEffect } from 'react'
-import backly from '@/services/backly'
+import { useAuth } from '@/hooks/useAuth'
+import { useProfile } from '@/hooks/useProfile'
+import auth from '@feathersjs/authentication-client'
 
 const App = () => {
   const value = useRecoilValue(cardsStore)
   const location = useLocation()
   const navigate = useNavigate()
+  const { user, authenticated } = useAuth(true)
+  const { profile, neededSetup } = useProfile(true)
 
   useEffect(() => {
-    console.log(value)
-  }, [value])
+    console.log('auth', authenticated)
+  }, [authenticated])
 
   useEffect(() => {
-    if (!backly.auth.state && location.pathname.split('/')[1] !== 'auth') {
-      navigate('/auth')
+    if (!authenticated) {
+      if (location.pathname.split('/')[1] !== 'auth') {
+        navigate('/auth')
+      }
+    } else {
     }
-  }, [location.pathname])
+  }, [location.pathname, authenticated])
+
+  useEffect(() => {
+    if (authenticated && neededSetup) {
+      navigate('/me')
+    }
+  }, [authenticated, neededSetup])
 
   return (
     <div className='w-full h-[calc(100vh-env(safe-area-inset-bottom))] flex flex-col items-center overflow-x-hidden'>

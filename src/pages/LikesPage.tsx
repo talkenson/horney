@@ -1,3 +1,8 @@
+import { useProfile } from '@/hooks/useProfile'
+import { useRecoilValue } from 'recoil'
+import { needSetupProfileStore } from '@/store/profile.store'
+import { NeedCreateProfile } from '@/components/NeedCreateProfile'
+
 const Person = () => {
   return (
     <div className='flex space-x-3'>
@@ -14,15 +19,23 @@ const Person = () => {
 }
 
 export const LikesPage = () => {
+  const needSetupProfile = useRecoilValue(needSetupProfileStore)
+
   return (
-    <div className='flex flex-col space-y-4 p-2'>
-      <div className='flex items-center justify-between space-x-3'>
-        <h2 className='text-3xl text-gray-700'>Likes</h2>
-        <span className='text-xl text-gray-400'>23</span>
-      </div>
-      <div className='flex flex-col space-y-2'>
-        <Person />
-      </div>
+    <div className='flex flex-col space-y-4 '>
+      {needSetupProfile ? (
+        <NeedCreateProfile />
+      ) : (
+        <>
+          <div className='flex items-center justify-between space-x-3'>
+            <h2 className='text-3xl text-gray-700'>Likes</h2>
+            <span className='text-xl text-gray-400'>23</span>
+          </div>
+          <div className='flex flex-col space-y-2'>
+            <Person />
+          </div>
+        </>
+      )}
     </div>
   )
 }

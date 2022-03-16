@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import './rsuite.less'
@@ -8,15 +8,28 @@ import { Investigate } from '@/pages/Investigate'
 import { MyProfile } from '@/pages/MyProfile'
 import { EditProfile } from '@/pages/EditProfile'
 import { LikesPage } from '@/pages/LikesPage'
-import { RecoilRoot } from 'recoil'
+import { RecoilRoot, useRecoilSnapshot } from 'recoil'
 import { Profile } from '@/pages/Profile'
 import { Auth } from '@/pages/Auth'
 import { Login } from '@/pages/Login'
 import { Register } from '@/pages/Register'
 
+function DebugObserver() {
+  const snapshot = useRecoilSnapshot()
+  useEffect(() => {
+    console.debug('The following atoms were modified:')
+    for (const node of snapshot.getNodes_UNSTABLE({ isModified: true })) {
+      console.debug(node.key, snapshot.getLoadable(node))
+    }
+  }, [snapshot])
+
+  return null
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
+      <DebugObserver />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<App />}>

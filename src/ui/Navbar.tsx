@@ -52,8 +52,8 @@ const Option = ({
       <Icon
         className={`w-8 h-8 will-change-transform transition-transform  ${
           active
-            ? 'stroke-[1.5px] text-violet-500 scale-110'
-            : 'stroke-1 text-violet-400'
+            ? 'stroke-[1.5px] text-violet-500'
+            : 'stroke-1 text-violet-400 scale-90'
         }`}
       />
       {/*<span

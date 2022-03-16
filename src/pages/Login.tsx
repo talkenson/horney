@@ -1,14 +1,11 @@
-import { ProfileImage } from '@/components/inProfile/ProfileImage'
-import { Button } from '@/ui/Button'
 import { SlideButton } from '@/ui/SlideButton'
 import { ArrowRightIcon, LoginIcon, PencilIcon } from '@heroicons/react/outline'
-import { getRandomAge, getRandomName } from '@/utils/randomData'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { User } from '@/types'
 import { useCallback } from 'react'
-import backlyInstance from '@/services/backly'
 import { Input } from '@/ui/Input'
+import { useAuth } from '@/hooks/useAuth'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -22,10 +19,12 @@ export const Login = () => {
     setError,
   } = useForm<Pick<User, 'email' | 'password'>, string>()
 
+  const { login } = useAuth()
+
   const onSubmit = useCallback((data: Pick<User, 'email' | 'password'>) => {
-    backlyInstance.auth
-      .login(data)
+    login(data)
       .then(r => {
+        console.log(r)
         navigate('/')
       })
       .catch(e => {
@@ -65,14 +64,14 @@ export const Login = () => {
           label='Пароль'
           className='!rounded-xl'
         />
+        <SlideButton
+          onClick={handleSubmit(onSubmit)}
+          label='Войти'
+          icon={<LoginIcon className='w-5 h-5 text-white stroke-1' />}
+          subIcon={<ArrowRightIcon className='w-5 h-5 text-white stroke-1' />}
+          className='rounded-xl !mt-6'
+        />
       </form>
-      <SlideButton
-        onClick={handleSubmit(onSubmit)}
-        label='Войти'
-        icon={<LoginIcon className='w-5 h-5 text-white stroke-1' />}
-        subIcon={<ArrowRightIcon className='w-5 h-5 text-white stroke-1' />}
-        className='rounded-xl'
-      />
       {errors.email?.message ? (
         <span className='text-rose-400 w-full text-center'>
           Неправильные данные, попробуйте еще раз

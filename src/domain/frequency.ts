@@ -1,9 +1,11 @@
 import { SelectOption } from '@/ui/Select'
+import { Frequency, RelationStatus } from '@/types'
+import { relationStatus } from '@/domain/relationStatus'
 
 export const frequency: SelectOption[] = [
   {
     id: 'NotStated',
-    value: 'Не указан',
+    value: 'Не указано',
   },
   {
     id: 'No',
@@ -26,3 +28,7 @@ export const frequency: SelectOption[] = [
     value: 'Постоянно',
   },
 ]
+
+export const frequencyValues = Object.fromEntries(
+  frequency.map(v => [v.id, v.value]),
+) as Record<Frequency, string>

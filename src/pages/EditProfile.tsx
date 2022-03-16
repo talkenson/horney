@@ -1,17 +1,27 @@
 import { TextArea } from '@/ui/TextArea'
-import { Input } from '@/ui/Input'
 import { InputSpaced } from '@/ui/InputSpaced'
 import { Button } from '@/ui/Button'
-import { CheckIcon, SaveIcon } from '@heroicons/react/outline'
+import { CheckIcon } from '@heroicons/react/outline'
 import { Select } from '@/ui/Select'
 import { zodiacSigns } from '@/domain/zodiacSigns'
 import { useForm } from 'react-hook-form'
-import { Profile, Sex, User } from '@/types'
+import { Profile, Sex, Sociality, User } from '@/types'
 import { relationStatus } from '@/domain/relationStatus'
 import { frequency } from '@/domain/frequency'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { sex } from '@/domain/sex'
+import { sociality as socialityOptions } from '@/domain/sociality'
+import { lookingFor } from '@/domain/lookingFor'
+import { useProfile } from '@/hooks/useProfile'
+import { profileStore } from '@/store/profile.store'
+
+const defaultProfile: Partial<Profile> = {
+  sex: Sex.Male,
+}
 
 export const EditProfile = () => {
+  const { profile, update } = useProfile()
+
   const {
     register,
     handleSubmit,
@@ -20,11 +30,45 @@ export const EditProfile = () => {
     formState: { errors },
     getValues,
     setError,
-  } = useForm<Profile, string>()
+  } = useForm<Profile, string>({
+    defaultValues: {
+      ...defaultProfile,
+      ...profile,
+    },
+  })
 
-  const onSubmit = useCallback((data: Partial<Profile>) => {
-    console.log(data)
-  }, [])
+  useEffect(() => {
+    console.log(profile)
+  }, [profile])
+
+  const [gender, setGender] = useState<Sex>(Sex.Male) // change to current user info
+  const [sociality, setSociality] = useState<Sociality>(Sociality.Ambivert) // change to current user info
+
+  const changeGender = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      console.log(e.currentTarget.selectedOptions.item(0)?.value)
+      setValue('sex', e.currentTarget.value as Sex)
+      setGender(e.currentTarget.value as Sex)
+    },
+    [],
+  )
+
+  const changeSociality = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      console.log(e.currentTarget.selectedOptions.item(0)?.value)
+      setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
+      setSociality(e.currentTarget.value as Sociality)
+    },
+    [],
+  )
+
+  const onSubmit = useCallback(
+    (data: Profile) => {
+      console.log(data)
+      update(data)
+    },
+    [update],
+  )
 
   return (
     <div className='flex flex-col space-y-4 p-2 pt-8 pb-[5rem]'>
@@ -42,6 +86,7 @@ export const EditProfile = () => {
           onChange={e => {
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
+          value={getValues('name')}
         />
         <InputSpaced
           label='Возраст'
@@ -50,6 +95,27 @@ export const EditProfile = () => {
           onChange={e => {
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
+          value={getValues('age')}
+        />
+        <InputSpaced
+          label='Рост'
+          id='height'
+          type={'number'}
+          onChange={e => {
+            setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
+          }}
+          value={getValues('height') ?? undefined}
+        />
+        <Select label='Пол' id='sex' options={sex} onChange={changeGender} />
+        <Select
+          label='Что вы ищете?'
+          id='lookingFor'
+          options={lookingFor}
+          onChange={e => {
+            console.log(e.currentTarget.selectedOptions.item(0)?.value)
+            setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
+          }}
+          value={getValues('lookingFor')}
         />
         <Select
           label='Знак зодиака'
@@ -59,15 +125,17 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
+          value={getValues('zodiac') ?? undefined}
         />
         <Select
           label='Семейное положение'
           id='relationStatus'
-          options={relationStatus(getValues('sex') === Sex.Male)}
+          options={relationStatus(gender === Sex.Male)}
           onChange={e => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
+          value={getValues('relationStatus') ?? undefined}
         />
         <Select
           label='Курение'
@@ -77,6 +145,7 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
+          value={getValues('smoking') ?? undefined}
         />
         <Select
           label='Алкоголь'
@@ -86,14 +155,29 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
+          value={getValues('drinking') ?? undefined}
+        />
+        <Select
+          label='Тип личности'
+          id='sociality'
+          options={socialityOptions}
+          onChange={changeSociality}
+          value={getValues('sociality') ?? undefined}
         />
         <TextArea
-          label='Расскажите о себе'
+          label={`Расскажите о себе ${
+            sociality === Sociality.Introvert
+              ? 'хоть чуть-чуть...'
+              : sociality === Sociality.Extravert
+              ? 'как можно больше!'
+              : ''
+          }`}
           rows={8}
           id='desc'
           onChange={e => {
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
+          value={getValues('desc') ?? undefined}
         />
         <Button
           label='Сохранить'
@@ -107,16 +191,16 @@ export const EditProfile = () => {
 }
 
 /*
-name: string
-  age: number
-  desc: string
+name: string =
+  age: number=
+  desc: string =
   active: boolean
   photos: string[]
-  relationStatus?: RelationStatus | null
-  smoking?: Frequency | null
-  drinking?: Frequency | null
-  zodiac?: Zodiac | null
+  relationStatus?: RelationStatus | null =
+  smoking?: Frequency | null =
+  drinking?: Frequency | null =
+  zodiac?: Zodiac | null =
   sociality?: Sociality | null
-  height?: number | null
+  height?: number | null =
   lookingFor: LookingFor
  */

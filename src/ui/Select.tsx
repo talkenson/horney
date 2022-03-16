@@ -13,7 +13,12 @@ export const Select: FC<
   > & { label?: string; options: SelectOption[] }
 > = ({ label, options, ...props }) => {
   const opts = useMemo(
-    () => options.map(v => <option value={v.id}>{v.value}</option>),
+    () =>
+      options.map(v => (
+        <option key={v.id} value={v.id}>
+          {v.value}
+        </option>
+      )),
     [options],
   )
 

@@ -92,3 +92,13 @@ export interface AuthorizedUser {
   accessToken: string
   user: User
 }
+
+export type Credentials = Partial<
+  Pick<AuthorizedUser, 'accessToken'> & {
+    user?: Pick<AuthorizedUser['user'], 'email' | 'id' | 'contacts' | 'profile'>
+  }
+>
+
+export interface AuthState {
+  authenticated: boolean
+}
