@@ -13,7 +13,6 @@ import { sex } from '@/domain/sex'
 import { sociality as socialityOptions } from '@/domain/sociality'
 import { lookingFor } from '@/domain/lookingFor'
 import { useProfile } from '@/hooks/useProfile'
-import { profileStore } from '@/store/profile.store'
 
 const defaultProfile: Partial<Profile> = {
   sex: Sex.Male,
@@ -86,7 +85,7 @@ export const EditProfile = () => {
           onChange={e => {
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('name')}
+          defaultValue={getValues('name')}
         />
         <InputSpaced
           label='Возраст'
@@ -95,7 +94,7 @@ export const EditProfile = () => {
           onChange={e => {
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('age')}
+          defaultValue={getValues('age')}
         />
         <InputSpaced
           label='Рост'
@@ -104,9 +103,15 @@ export const EditProfile = () => {
           onChange={e => {
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('height') ?? undefined}
+          defaultValue={getValues('height') ?? undefined}
         />
-        <Select label='Пол' id='sex' options={sex} onChange={changeGender} />
+        <Select
+          label='Пол'
+          id='sex'
+          options={sex}
+          onChange={changeGender}
+          defaultValue={getValues('sex') ?? undefined}
+        />
         <Select
           label='Что вы ищете?'
           id='lookingFor'
@@ -115,7 +120,7 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('lookingFor')}
+          defaultValue={getValues('lookingFor')}
         />
         <Select
           label='Знак зодиака'
@@ -125,7 +130,7 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('zodiac') ?? undefined}
+          defaultValue={getValues('zodiac') ?? undefined}
         />
         <Select
           label='Семейное положение'
@@ -135,7 +140,7 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('relationStatus') ?? undefined}
+          defaultValue={getValues('relationStatus') ?? undefined}
         />
         <Select
           label='Курение'
@@ -145,7 +150,7 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('smoking') ?? undefined}
+          defaultValue={getValues('smoking') ?? undefined}
         />
         <Select
           label='Алкоголь'
@@ -155,14 +160,14 @@ export const EditProfile = () => {
             console.log(e.currentTarget.selectedOptions.item(0)?.value)
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('drinking') ?? undefined}
+          defaultValue={getValues('drinking') ?? undefined}
         />
         <Select
           label='Тип личности'
           id='sociality'
           options={socialityOptions}
           onChange={changeSociality}
-          value={getValues('sociality') ?? undefined}
+          defaultValue={getValues('sociality') ?? undefined}
         />
         <TextArea
           label={`Расскажите о себе ${
@@ -177,7 +182,7 @@ export const EditProfile = () => {
           onChange={e => {
             setValue(e.currentTarget.id as keyof Profile, e.currentTarget.value)
           }}
-          value={getValues('desc') ?? undefined}
+          defaultValue={getValues('desc') ?? undefined}
         />
         <Button
           label='Сохранить'
