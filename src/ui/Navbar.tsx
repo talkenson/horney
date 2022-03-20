@@ -50,10 +50,8 @@ const Option = ({
       }}
     >
       <Icon
-        className={`w-8 h-8 will-change-transform transition-transform  ${
-          active
-            ? 'stroke-[1.5px] text-violet-500'
-            : 'stroke-1 text-violet-400 scale-90'
+        className={`w-8 h-8 will-change-transform transition-transform stroke-1  ${
+          active ? 'text-violet-500' : 'text-violet-400 scale-90'
         }`}
       />
       {/*<span
@@ -82,7 +80,7 @@ export const Navbar = () => {
   }, [section])
 
   return isAuth ? null : (
-    <div className='sticky bottom-[env(safe-area-inset-bottom)] left-0 w-full h-[4rem] bg-white shadow-up px-1 py-1'>
+    <div className='fixed bottom-[env(safe-area-inset-bottom)] left-0 w-full h-[4rem] bg-white shadow-up px-1 py-1'>
       <div className='mx-auto h-full max-w-[450px] flex justify-around items-center items-center'>
         {options.map(v => (
           <Option key={v.badgeKey} {...v} active={section === v.link} />

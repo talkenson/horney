@@ -191,12 +191,12 @@ export const CardDeck = () => {
 
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className='relative h-full w-full bg-green-200' ref={ref}>
+    <div className='relative h-full w-full' ref={ref}>
       <span className='absolute top-1/2 left-1/2 transform -translate-x-1/2 w-full text-center animate-pulse text-gray-700 font-fancy'>
         {loading ? 'Ищем ещё...' : 'Скоро найдем ещё'}
       </span>
       <div
-        className='relative mx-auto w-fit h-full my-safe bg-blue-200'
+        className='relative mx-auto w-fit h-full my-safe'
         style={containerSizes}
       >
         {props.map((spring, i) => (
