@@ -14,7 +14,7 @@ module.exports = {
       },
       boxShadow: {
         up: '0px -4px 16px -2px rgba(31, 41, 55, 0.2)',
-        vignette: 'inset 0px 0px 50px rgba(0, 0, 0, 0.6)',
+        vignette: 'inset 0px 0px 40px rgba(0, 0, 0, 0.2)',
       },
     },
   },

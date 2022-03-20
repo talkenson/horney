@@ -7,7 +7,7 @@ export const Investigate = () => {
   const needSetupProfile = useRecoilValue(needSetupProfileStore)
 
   return (
-    <div className='w-full h-fit grow flex flex-col items-center justify-start bg-red-200 overflow-y-hidden'>
+    <div className='w-full h-[calc(100%-4rem)] flex flex-col items-center justify-start bg-red-200'>
       {needSetupProfile ? <NeedCreateProfile /> : <CardDeck />}
     </div>
   )

@@ -1,19 +1,11 @@
-import { ProfileImage } from '@/components/inProfile/ProfileImage'
-import { Button } from '@/ui/Button'
 import { SlideButton } from '@/ui/SlideButton'
-import {
-  ArrowRightIcon,
-  LoginIcon,
-  PencilIcon,
-  PlusIcon,
-} from '@heroicons/react/outline'
-import { getRandomAge, getRandomName } from '@/utils/randomData'
+import { ArrowRightIcon, LoginIcon } from '@heroicons/react/outline'
 import { useNavigate, Outlet } from 'react-router-dom'
-import { Input } from 'rsuite'
+import { Input } from '@/ui/Input'
 import { useForm } from 'react-hook-form'
 import { User } from '@/types'
 import { useCallback } from 'react'
-import backlyInstance from '@/services/backly'
+import { useAuth } from '@/hooks/useAuth'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -27,20 +19,16 @@ export const Register = () => {
     setError,
   } = useForm<Pick<User, 'email' | 'password'>, string>()
 
+  const { register: createUser, login } = useAuth()
+
   const onSubmit = useCallback((data: Pick<User, 'email' | 'password'>) => {
-    backlyInstance.auth
-      .register(data)
-      .then(r => {
-        backlyInstance.auth
-          .login(data)
-          .then(r => {
-            navigate('/')
-          })
-          .catch(e => {
-            throw e
-          })
+    createUser(data)
+      .then(() => login(data))
+      .then((r: any) => {
+        console.log(r)
+        navigate('/')
       })
-      .catch(e => {
+      .catch((e: any) => {
         console.log(e)
         setError('email', { message: 'Неправильный адрес' })
       })
@@ -63,28 +51,26 @@ export const Register = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input
-          value={getValues('email')}
-          onChange={s => setValue('email', s)}
-          placeholder='E-mail'
+          value={getValues().email}
+          onChange={e => setValue('email', e.currentTarget.value)}
+          label='E-mail'
           className='!rounded-xl'
-          size='lg'
         />
         <Input
-          value={getValues('password')}
-          onChange={s => setValue('password', s)}
+          value={getValues().password}
+          onChange={e => setValue('password', e.currentTarget.value)}
           type={'password'}
-          placeholder='Пароль'
+          label='Пароль'
           className='!rounded-xl'
-          size='lg'
+        />
+        <SlideButton
+          onClick={handleSubmit(onSubmit)}
+          label='Зарегистрироваться'
+          icon={<LoginIcon className='w-5 h-5 text-white stroke-1' />}
+          subIcon={<ArrowRightIcon className='w-5 h-5 text-white stroke-1' />}
+          className='rounded-xl !mt-6'
         />
       </form>
-      <SlideButton
-        onClick={handleSubmit(onSubmit)}
-        label='Присоединиться'
-        icon={<PlusIcon className='w-5 h-5 text-white stroke-1' />}
-        subIcon={<ArrowRightIcon className='w-5 h-5 text-white stroke-1' />}
-        className='rounded-xl'
-      />
       {errors.email?.message ? (
         <span className='text-rose-400 w-full text-center'>
           Произошла ошибочка, проверьте Ваш пароль, он должен быть надежным, а

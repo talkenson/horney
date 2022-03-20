@@ -115,7 +115,7 @@ export const CardDeck = () => {
               : Opinion.Skip
             : Opinion.NA,
         )
-        const rot = mx / 100 + (isGone ? xDir * 5 * Math.max(vx, 0.1) : 0) // How much the card tilts, flicking it harder makes it rotate faster
+        const rot = 0 //mx / 100 + (isGone ? xDir * 5 * Math.max(vx, 0.1) : 0) // How much the card tilts, flicking it harder makes it rotate faster
         const scale = active ? 1.05 : 1 // Active cards lift up a bit
         return {
           x,
@@ -151,13 +151,19 @@ export const CardDeck = () => {
     height: '0px',
     width: '0px',
   })
+  const [containerSizes, setContainerSizes] = useState<{
+    [k in keyof Sizes]: string
+  }>({
+    height: '0px',
+    width: '0px',
+  })
 
   const calcRatio = useCallback(() => {
     const rect: Sizes = ref.current?.getBoundingClientRect() || {
       height: 0,
-      width: 0,
+      width: window.innerWidth,
     }
-    const normalWidth = Math.min(rect.width, ((rect.height - 16) / 16) * 9)
+    const normalWidth = Math.min(rect.width, (rect.height / 16) * 9) * 0.95
     console.log(
       rect.width,
       rect.height,
@@ -166,6 +172,10 @@ export const CardDeck = () => {
       normalWidth,
     )
     setSizes({
+      height: `${(normalWidth / 9) * 16}px`,
+      width: `${normalWidth}px`,
+    })
+    setContainerSizes({
       height: `${(normalWidth / 9) * 16}px`,
       width: `${normalWidth}px`,
     })
@@ -181,18 +191,21 @@ export const CardDeck = () => {
 
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className='relative h-[calc(100%-4rem)] w-4/5 bg-green-200' ref={ref}>
+    <div className='relative h-full w-full bg-green-200' ref={ref}>
       <span className='absolute top-1/2 left-1/2 transform -translate-x-1/2 w-full text-center animate-pulse text-gray-700 font-fancy'>
         {loading ? 'Ищем ещё...' : 'Скоро найдем ещё'}
       </span>
-      <div className='relative w-full h-full' style={sizes}>
+      <div
+        className='relative mx-auto w-fit h-full my-safe bg-blue-200'
+        style={containerSizes}
+      >
         {props.map((spring, i) => (
           <Card
             key={cards[i].id}
             id={cards[i].id}
             {...spring}
             binded={bind(cards[i].id)}
-            className='shadow-xl rounded-2xl w-full max-w-[380px]'
+            className='shadow-xl rounded-2xl'
             styles={sizes}
           >
             <CardContentBuilder {...cards[i]} />

@@ -35,13 +35,14 @@ const App = () => {
   }, [authenticated, neededSetup])
 
   return (
-    <div className=' w-full h-full mx-auto flex flex-col space-y-2 p-3 max-w-lg'>
-      <div className='w-full'>
-        <Logo className='mx-auto text-violet-500 h-16' />
+    <div className='w-full h-full flex flex-col overflow-x-hidden'>
+      <div className='w-full h-[calc(100%-env(safe-area-inset-bottom))] mx-auto flex flex-col space-y-2 p-3 max-w-lg'>
+        <div className='w-full'>
+          <Logo className='mx-auto text-violet-500 h-16' />
+        </div>
+        <Outlet />
       </div>
-      <Outlet />
       <Navbar />
-      <div className='fixed w-full left-0 bottom-0 bg-red-500 pb-safe' />
     </div>
   )
 }

@@ -12,7 +12,7 @@ export interface ButtonProps {
   circle?: boolean
   icon?: JSX.Element | string | number | SVGElement
   label?: JSX.Element | string | number
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void
+  onClick?: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void
   className?: string
 }
 
@@ -81,7 +81,7 @@ export const Button = ({
   )
 
   return (
-    <div
+    <button
       className={`${cn(
         className,
         classes,
@@ -90,6 +90,6 @@ export const Button = ({
       onClick={e => onClick?.(e)}
     >
       <ButtonLabelBuilder label={label} icon={icon} />
-    </div>
+    </button>
   )
 }
