@@ -1,5 +1,5 @@
 import { animated, SpringValue } from '@react-spring/web'
-import React, { FC } from 'react'
+import React, { FC, useLayoutEffect, useRef, useState } from 'react'
 import { to as interpolate } from '@react-spring/web'
 import { ReactDOMAttributes } from '@use-gesture/react'
 
@@ -18,6 +18,7 @@ export interface CardProps {
   className?: string
   id: number
   xDir: SpringValue<number>
+  styles: { height?: string; width?: string }
 }
 
 export const Card: FC<CardProps> = ({
@@ -31,6 +32,7 @@ export const Card: FC<CardProps> = ({
   scale,
   children,
   xDir,
+  styles,
 }) => {
   return (
     <animated.div
@@ -44,10 +46,11 @@ export const Card: FC<CardProps> = ({
         style={{
           transform: interpolate([rot, scale], trans),
           opacity: opacity,
+          ...styles,
         }}
         className={`${
           className || ''
-        } bg-white relative touch-none will-change-transform p-2 ring-1 ring-gray-200`}
+        } bg-white relative touch-none will-change-transform p-2 ring-1 ring-gray-200 min-w-[12rem] min-h-[21.5rem]`}
       >
         <>{children}</>
       </animated.div>

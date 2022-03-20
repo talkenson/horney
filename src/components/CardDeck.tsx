@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useSprings, animated, to as interpolate } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
 import { Card, CardProps } from './Card'
@@ -23,6 +29,8 @@ const createRandomCards = (count: number): CardContent[] => {
     desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
   }))
 }
+
+type Sizes = Pick<DOMRect, 'height' | 'width'>
 
 enum Opinion {
   Like,
@@ -138,20 +146,54 @@ export const CardDeck = () => {
     }
   }, [])
 
+  const ref = useRef<HTMLDivElement>(null)
+  const [sizes, setSizes] = useState<{ [k in keyof Sizes]: string }>({
+    height: '0px',
+    width: '0px',
+  })
+
+  const calcRatio = useCallback(() => {
+    const rect: Sizes = ref.current?.getBoundingClientRect() || {
+      height: 0,
+      width: 0,
+    }
+    const normalWidth = Math.min(rect.width, ((rect.height - 16) / 16) * 9)
+    console.log(
+      rect.width,
+      rect.height,
+      'reduced hw',
+      (rect.height / 16) * 9,
+      normalWidth,
+    )
+    setSizes({
+      height: `${(normalWidth / 9) * 16}px`,
+      width: `${normalWidth}px`,
+    })
+  }, [])
+
+  useLayoutEffect(() => {
+    calcRatio()
+    window.addEventListener('resize', calcRatio)
+    return () => {
+      window.removeEventListener('resize', calcRatio)
+    }
+  }, [calcRatio])
+
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className='relative aspect-[9/16] w-4/5 mt-3'>
+    <div className='relative h-[calc(100%-4rem)] w-4/5 bg-green-200' ref={ref}>
       <span className='absolute top-1/2 left-1/2 transform -translate-x-1/2 w-full text-center animate-pulse text-gray-700 font-fancy'>
         {loading ? 'Ищем ещё...' : 'Скоро найдем ещё'}
       </span>
-      <div className='relative w-full h-full'>
+      <div className='relative w-full h-full' style={sizes}>
         {props.map((spring, i) => (
           <Card
             key={cards[i].id}
             id={cards[i].id}
             {...spring}
             binded={bind(cards[i].id)}
-            className='shadow-xl rounded-2xl w-full max-w-[380px] aspect-[9/16]'
+            className='shadow-xl rounded-2xl w-full max-w-[380px]'
+            styles={sizes}
           >
             <CardContentBuilder {...cards[i]} />
           </Card>

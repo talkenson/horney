@@ -5,6 +5,7 @@ import { cardsStore } from '@/store/cards.store'
 import { useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useProfile } from '@/hooks/useProfile'
+import { ReactComponent as Logo } from '@/assets/aestet.svg'
 import auth from '@feathersjs/authentication-client'
 
 const App = () => {
@@ -34,14 +35,13 @@ const App = () => {
   }, [authenticated, neededSetup])
 
   return (
-    <div className='w-full h-[calc(100vh-env(safe-area-inset-bottom))] flex flex-col items-center overflow-x-hidden'>
-      <div className='h-[calc(100%-4rem)] w-full mx-auto flex flex-col space-y-2 p-4 max-w-[56.25vh]'>
-        <div className='w-full flex flex-col items-center'>
-          <h1 className='font-display text-4xl text-violet-500'>Horney</h1>
-        </div>
-        <Outlet />
-        <Navbar />
+    <div className=' w-full h-full mx-auto flex flex-col space-y-2 p-3 max-w-lg'>
+      <div className='w-full'>
+        <Logo className='mx-auto text-violet-500 h-16' />
       </div>
+      <Outlet />
+      <Navbar />
+      <div className='fixed w-full left-0 bottom-0 bg-red-500 pb-safe' />
     </div>
   )
 }

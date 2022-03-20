@@ -1,6 +1,6 @@
 import { ReactComponent as Placeholder } from '@/assets/img-placeholder.svg'
 import { StoryProgress } from '@/components/inCard/StoryProgress'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { OneImagePresenter } from '@/components/inCard/OneImagePresenter'
 
 export interface ImageGallery {
@@ -23,7 +23,7 @@ export const ImageGallery = ({ images, className }: ImageGallery) => {
   )
 
   return (
-    <div className={`${className || ''} w-full h-full aspect-[9/16]`}>
+    <div className={`${className || ''} w-full h-full`}>
       <div className='relative h-full w-full shadow-vignette'>
         {total ? (
           <OneImagePresenter source={images[current]} />
